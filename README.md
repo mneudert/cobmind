@@ -17,6 +17,20 @@ make
 ```
 
 
+## Usage
+
+Combind expects both the used database and the IP to lookup
+as command line parameters:
+
+```shell
+./cobmind -d ./test-data/CobMind-ipv4-24.mmdb -i 127.0.0.1
+./cobmind --database ./test-data/CobMind-ipv4-24.mmdb --ip 127.0.0.1
+```
+
+If either of the parameters are missing the program will exit
+with an appropriate message.
+
+
 ## Teardown
 
 ```shell
