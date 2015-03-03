@@ -9,13 +9,6 @@ program-id. cobmind.
 data division.
 working-storage section.
 
-01 argv        pic x(255) value spaces.
-   88 argv-db  value "-d", "--database".
-   88 argv-ip  value "-i", "--ip".
-
-01 cmdstatus   pic x value spaces.
-   88 lastcmd  value "l".
-
 01 lookup-info.
    05 lookup-db  pic x(128) value spaces.
    05 lookup-ip  pic x(15) value spaces.
@@ -23,14 +16,14 @@ working-storage section.
 *>*********************************************************************
 
 procedure division.
-perform lookup.
+  call 'cobmind-cli' using
+    by reference lookup-db
+    by reference lookup-ip
+
+  perform maybe-lookup.
 stop run.
 
 *>*********************************************************************
-
-lookup.
-  perform parse-arguments.
-  perform maybe-lookup.
 
 maybe-lookup.
   if lookup-db = spaces or low-value
@@ -46,26 +39,3 @@ maybe-lookup.
     display "database: " lookup-db
     display "ip:       " lookup-ip
   end-if.
-
-parse-arguments.
-  perform until lastcmd
-    move low-values	to argv
-    accept argv from argument-value
-
-    if argv > low-values
-      perform process-arguments
-    else
-      move "l" to cmdstatus
-    end-if
-  end-perform.
-
-process-arguments.
-  evaluate true
-    when argv-db
-      accept lookup-db from argument-value
-
-    when argv-ip
-      accept lookup-ip from argument-value
-
-    when other display "invalid switch: " argv
-  end-evaluate.
