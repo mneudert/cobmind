@@ -1,7 +1,7 @@
-all: cobmind
+all: clean cobmind
 
 cobmind:
 	cobc -x cobmind.cbl
 
 clean:
-	rm cobmind
+	rm -f cobmind
