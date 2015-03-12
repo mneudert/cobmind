@@ -16,6 +16,9 @@ working-storage section.
 01 database-exists-rec  pic x.
    88 database-exists   value 'Y', false 'N'.
 
+01 metafile-exists-rec  pic x.
+   88 metafile-exists   value 'Y', false 'N'.
+
 *>*********************************************************************
 
 procedure division.
@@ -26,11 +29,23 @@ stop run.
 
 *>*********************************************************************
 
+maybe-extract-meta.
+  call 'cobmind-meta-exists' using
+    by reference lookup-db
+    by reference metafile-exists-rec
+
+  if (not metafile-exists)
+    display 'extracting meta data...'
+  end-if.
+
+
 maybe-lookup.
   if database-exists
   and (lookup-ip not = spaces and low-value)
     display 'database: ' lookup-db
     display 'ip:       ' lookup-ip
+
+    perform maybe-extract-meta
   end-if.
 
 
