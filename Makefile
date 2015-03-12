@@ -1,10 +1,20 @@
 SOURCES := $(wildcard **/*.cbl)
+OBJECTS := $(SOURCES:.cbl=.o)
 
 
-all: clean cobmind
+%.o: %.cbl
+	cobc -c $< -o _build/$(notdir $@)
 
-cobmind:
-	cobc -x $@.cbl $(SOURCES) -o $@
+
+all: clean prepare cobmind
+
 
 clean:
+	rm -rf _build
 	rm -f cobmind
+
+cobmind: $(OBJECTS)
+	cobc -x $@.cbl _build/*.o -o $@
+
+prepare:
+	mkdir _build
