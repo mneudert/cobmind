@@ -36,6 +36,8 @@ maybe-extract-meta.
 
   if (not metafile-exists)
     display 'extracting meta data...'
+    call 'mmdb2-extract-meta' using
+      by reference lookup-db
   end-if.
 
 
