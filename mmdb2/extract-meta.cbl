@@ -6,33 +6,19 @@ program-id. mmdb2-extract-meta.
 
 *>*********************************************************************
 
-environment division.
-input-output section.
-
-file-control.
-  select filehandle
-    assign to filename
-    organization is binary sequential.
-
-*>*********************************************************************
-
 data division.
-file section.
-
-fd filehandle.
-01 databyte  pic x(1).
-
 working-storage section.
 
-01 filename  pic x(128) value spaces.
+01 buffer       pic x(1).
+
+01 file-handle  pic x(4).
+01 file-offset  pic x(8) comp-x.
 
 01 needle-rec.
-   05 needle-char  pic 9(2) value 1.
-   05 needle-len   pic 9(2) value 14.
-   05 needle-pos   pic 9(9) value 0.
+   05 needle-char  pic x(1) comp-x.
+   05 needle-len   pic x(1) comp-x.
    05 needle-str   pic x(14).
 
-01 search-pos      pic 9(9).
 01 search-rec      pic x.
    88 search-done  value 'Y', false 'N'.
 
@@ -43,44 +29,64 @@ linkage section.
 *>*********************************************************************
 
 procedure division using database.
-  move database to filename
+  move 1  to needle-char
+  move 14 to needle-len
 
   string X'ABCDEF' 'MaxMind.com'
     delimited by space
     into needle-str
 
-  open input filehandle
-
+  perform open-meta
   perform locate-meta
-  display 'meta start position: ' with no advancing
-  display needle-pos
+  perform close-meta
 
-  close filehandle.
+  display 'meta start position: ' with no advancing
+  display file-offset
 exit program.
 
 *>*********************************************************************
 
 check-needle.
-  add 1 to search-pos
+  call 'CBL_READ_FILE' using file-handle, file-offset, 1, 0, buffer
 
-  if databyte <> needle-str(needle-char:1)
-    set needle-char to 1
-  else
-    add 1 to needle-char
+  if return-code <> 0
+    display 'failed to read file (return code: ' return-code ')'
+
+    set search-done to true
+    goback
   end-if
 
+  if buffer = needle-str(needle-char:1)
+    add 1 to needle-char
+  else
+    move 1 to needle-char
+  end-if
+
+  add 1 to file-offset
+
   if needle-char > needle-len
-    move search-pos to needle-pos
     set search-done to true
+  end-if.
+
+
+close-meta.
+  call 'CBL_CLOSE_FILE' using file-handle.
+
+  if return-code <> 0
+    display 'failed to open meta file (return code: ' return-code ')'
   end-if.
 
 
 locate-meta.
   perform until search-done
-    read filehandle
-      at end
-        set search-done to true
-      not at end
-        perform check-needle
-    end-read
+    perform check-needle
   end-perform.
+
+
+open-meta.
+  call 'CBL_OPEN_FILE' using database, 1, 0, 0, file-handle
+
+  if return-code <> 0
+    display 'failed to open meta file (return code: ' return-code ')'
+    goback
+  end-if.
