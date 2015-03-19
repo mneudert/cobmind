@@ -19,6 +19,8 @@ working-storage section.
 01 metafile-exists-rec  pic x.
    88 metafile-exists   value 'Y', false 'N'.
 
+01 database-handle pic x(4).
+
 *>*********************************************************************
 
 procedure division.
@@ -30,14 +32,11 @@ stop run.
 *>*********************************************************************
 
 maybe-extract-meta.
-  call 'cobmind-meta-exists' using
-    by reference lookup-db
-    by reference metafile-exists-rec
+  call 'cobmind-meta-exists' using lookup-db, metafile-exists-rec
 
   if (not metafile-exists)
     display 'extracting meta data...'
-    call 'mmdb2-extract-meta' using
-      by reference lookup-db
+    call 'mmdb2-extract-meta' using database-handle
   end-if
   .
 
@@ -48,15 +47,21 @@ maybe-lookup.
     display 'database: ' lookup-db
     display 'ip:       ' lookup-ip
 
-    perform maybe-extract-meta
+    call 'mmdb2-open' using lookup-db, database-handle
+
+    if return-code = 0
+      perform maybe-extract-meta
+    end-if
+
+    if return-code = 0
+      call 'mmdb2-close' using database-handle
+    end-if
   end-if
   .
 
 
 parse-argv.
-  call 'cobmind-cli' using
-    by reference lookup-db
-    by reference lookup-ip
+  call 'cobmind-cli' using lookup-db, lookup-ip
 
   if lookup-db = spaces or low-value
     display 'missing database path! ("-d" or "--database")'
@@ -70,9 +75,7 @@ parse-argv.
 
 validate-argv.
   if lookup-db not = spaces
-    call 'cobmind-file-exists' using
-      by reference lookup-db
-      by reference database-exists-rec
+    call 'cobmind-file-exists' using lookup-db, database-exists-rec
 
     if (not database-exists)
       display 'failed to locate or open database: ' lookup-db
