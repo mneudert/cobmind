@@ -39,7 +39,8 @@ parse-arguments.
     else
       move "l" to cmdstatus
     end-if
-  end-perform.
+  end-perform
+  .
 
 process-arguments.
   evaluate true
@@ -50,4 +51,5 @@ process-arguments.
       accept lookup-ip from argument-value
 
     when other display "invalid switch: " argv
-  end-evaluate.
+  end-evaluate
+  .

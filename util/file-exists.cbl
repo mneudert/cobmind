@@ -52,4 +52,5 @@ check.
     set exists to false
   end-if
 
-  close filehandle.
+  close filehandle
+  .

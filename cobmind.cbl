@@ -38,7 +38,8 @@ maybe-extract-meta.
     display 'extracting meta data...'
     call 'mmdb2-extract-meta' using
       by reference lookup-db
-  end-if.
+  end-if
+  .
 
 
 maybe-lookup.
@@ -48,7 +49,8 @@ maybe-lookup.
     display 'ip:       ' lookup-ip
 
     perform maybe-extract-meta
-  end-if.
+  end-if
+  .
 
 
 parse-argv.
@@ -62,7 +64,8 @@ parse-argv.
 
   if lookup-ip = spaces or low-value
     display 'missing ip address! ("-i" or "--ip")'
-  end-if.
+  end-if
+  .
 
 
 validate-argv.
@@ -74,4 +77,5 @@ validate-argv.
     if (not database-exists)
       display 'failed to locate or open database: ' lookup-db
     end-if
-  end-if.
+  end-if
+  .

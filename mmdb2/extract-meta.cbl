@@ -66,7 +66,8 @@ check-needle.
 
   if needle-char > needle-len
     set search-done to true
-  end-if.
+  end-if
+  .
 
 
 close-meta.
@@ -74,13 +75,15 @@ close-meta.
 
   if return-code <> 0
     display 'failed to open meta file (return code: ' return-code ')'
-  end-if.
+  end-if
+  .
 
 
 locate-meta.
   perform until search-done
     perform check-needle
-  end-perform.
+  end-perform
+  .
 
 
 open-meta.
@@ -89,4 +92,5 @@ open-meta.
   if return-code <> 0
     display 'failed to open meta file (return code: ' return-code ')'
     goback
-  end-if.
+  end-if
+  .
