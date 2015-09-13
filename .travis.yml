@@ -4,6 +4,7 @@ sudo:     false
 addons:
   apt:
     packages:
+      - help2man
       - libgmp-dev
       - libdb-dev
 
