@@ -13,6 +13,9 @@ install:
   - svn checkout svn://svn.code.sf.net/p/open-cobol/code/branches/gnu-cobol-2.0 .
   - ./configure && make
   - export PATH="${PATH}:${TRAVIS_BUILD_DIR}/gnu-cobol/cobc"
+
+before_script:
   - cd ${TRAVIS_BUILD_DIR}
+  - make
 
 script: ./cobmind --database ./test-data/CobMind-ipv4-24.mmdb --ip 127.0.0.1
