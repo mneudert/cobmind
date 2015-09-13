@@ -9,13 +9,15 @@ addons:
       - libdb-dev
 
 install:
-  - mkdir "gnu-cobol" && cd "gnu-cobol"
+  - mkdir "cobol"
+  - mkdir "cobol-src" && cd "cobol-src"
   - svn checkout svn://svn.code.sf.net/p/open-cobol/code/branches/gnu-cobol-2.0 .
-  - ./configure && make
-  - export PATH="${PATH}:${TRAVIS_BUILD_DIR}/gnu-cobol/cobc"
+  - ./configure --prefix="${TRAVIS_BUILD_DIR}/cobol" --exec-prefix="${TRAVIS_BUILD_DIR}/cobol"
+  - make && make install
+  - export PATH="${PATH}:${TRAVIS_BUILD_DIR}/cobol/bin"
 
 before_script:
   - cd ${TRAVIS_BUILD_DIR}
-  - make
+  - CFLAGS="-I${TRAVIS_BUILD_DIR}/cobol/include" LDFLAGS="-L${TRAVIS_BUILD_DIR}/cobol/lib" CBLFLAGS="-conf=${TRAVIS_BUILD_DIR}/cobol/share/gnu-cobol/config/default.conf" make
 
 script: ./cobmind --database ./test-data/CobMind-ipv4-24.mmdb --ip 127.0.0.1

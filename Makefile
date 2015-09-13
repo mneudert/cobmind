@@ -3,7 +3,7 @@ OBJECTS := $(SOURCES:.cbl=.o)
 
 
 %.o: %.cbl
-	cobc -c $< -o _build/$(notdir $@)
+	cobc $(CFLAGS) $(CBLFLAGS) $(LDFLAGS) -c $< -o _build/$(notdir $@)
 
 
 all: clean prepare cobmind
@@ -14,7 +14,7 @@ clean:
 	rm -f cobmind
 
 cobmind: $(OBJECTS)
-	cobc -x $@.cbl _build/*.o -o $@
+	cobc $(CFLAGS) $(CBLFLAGS) $(LDFLAGS) -x $@.cbl _build/*.o -o $@
 
 prepare:
 	mkdir _build
