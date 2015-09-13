@@ -1,6 +1,11 @@
 language: c
 sudo:     false
 
+addons:
+  apt:
+    packages:
+      - libgmp-dev
+
 install:
   - mkdir "gnu-cobol" && cd "gnu-cobol"
   - svn checkout svn://svn.code.sf.net/p/open-cobol/code/branches/gnu-cobol-2.0 .
