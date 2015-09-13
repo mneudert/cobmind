@@ -5,6 +5,7 @@ addons:
   apt:
     packages:
       - libgmp-dev
+      - libdb-dev
 
 install:
   - mkdir "gnu-cobol" && cd "gnu-cobol"
