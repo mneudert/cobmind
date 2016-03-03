@@ -22,6 +22,5 @@ before_script:
   - export LDFLAGS="-L${TRAVIS_BUILD_DIR}/cobol/lib"
   - export CBLFLAGS="-conf=${TRAVIS_BUILD_DIR}/cobol/share/gnu-cobol/config/default.conf"
   - export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${TRAVIS_BUILD_DIR}/cobol/lib" 
-  - make
 
-script: ./cobmind --database ./test-data/CobMind-ipv4-24.mmdb --ip 127.0.0.1
+script: make test

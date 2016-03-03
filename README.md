@@ -31,6 +31,13 @@ If either of the parameters are missing the program will exit
 with an appropriate message.
 
 
+## Testing
+
+```shell
+make test
+```
+
+
 ## Teardown
 
 ```shell
