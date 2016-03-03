@@ -13,6 +13,7 @@ install:
   - mkdir "cobol-src" && cd "cobol-src"
   - svn checkout svn://svn.code.sf.net/p/open-cobol/code/branches/gnu-cobol-2.0 .
   - ./configure --prefix="${TRAVIS_BUILD_DIR}/cobol" --exec-prefix="${TRAVIS_BUILD_DIR}/cobol"
+  - echo '#!/bin/sh' > ./doc/cobcinfo.sh
   - make && make install
   - export PATH="${PATH}:${TRAVIS_BUILD_DIR}/cobol/bin"
 
