@@ -18,6 +18,6 @@ procedure division using filename, handle.
   call 'CBL_OPEN_FILE' using filename, 1, 0, 0, handle
 
   if return-code <> 0
-    display 'failed to open meta file (return code: ' return-code ')'
+    display 'failed to open file (return code: ' return-code ')'
   end-if
 exit program.

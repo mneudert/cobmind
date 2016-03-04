@@ -17,6 +17,6 @@ procedure division using handle.
   call 'CBL_CLOSE_FILE' using handle.
 
   if return-code <> 0
-    display 'failed to open meta file (return code: ' return-code ')'
+    display 'failed to open file (return code: ' return-code ')'
   end-if
   .
