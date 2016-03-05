@@ -6,9 +6,12 @@ TST_SOURCES := $(wildcard test/**/*.cbl)
 
 # empty line necessary for simple loop calls
 define TEST_TEMPLATE
-	cobc $(CFLAGS) $(CBLFLAGS) $(LDFLAGS) -x $(1) -o _build/*.o -o _test/$(notdir $(basename $(1)))
-	_test/$(notdir $(basename $(1)))
-	rm _test/$(notdir $(basename $(1)))
+	@cobc $(CFLAGS) $(CBLFLAGS) $(LDFLAGS) -x $(1) -o _build/*.o -o _test/$(notdir $(basename $(1)))
+
+	@echo 'Testing: "$(basename $(1))"'
+	@_test/$(notdir $(basename $(1)))
+
+	@rm _test/$(notdir $(basename $(1)))
 
 endef
 
