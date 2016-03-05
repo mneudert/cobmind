@@ -25,22 +25,22 @@ all: clean_build clean_exec prepare_build cobmind
 clean: clean_build clean_test clean_exec
 
 clean_build:
-	rm -rf _build
+	@rm -rf _build
 
 clean_exec:
-	rm -f cobmind
+	@rm -f cobmind
 
 clean_test:
-	rm -rf _test
+	@rm -rf _test
 
 cobmind: $(CBL_OBJECTS)
 	cobc $(CFLAGS) $(CBLFLAGS) $(LDFLAGS) -x $@.cbl _build/*.o -o $@
 
 prepare_build:
-	mkdir _build
+	@mkdir _build
 
 prepare_test:
-	mkdir _test
+	@mkdir _test
 
 test: clean_build clean_test prepare_build prepare_test $(CBL_OBJECTS)
 	$(foreach TST_SOURCE, $(TST_SOURCES), $(call TEST_TEMPLATE,$(TST_SOURCE)))
