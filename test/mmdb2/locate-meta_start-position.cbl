@@ -34,6 +34,4 @@ procedure division.
 
     stop run
   end-if
-
-  display 'Success: "locate-meta_start-position"'
 stop run.

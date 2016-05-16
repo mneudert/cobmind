@@ -8,8 +8,10 @@ TST_SOURCES := $(wildcard test/**/*.cbl)
 define TEST_TEMPLATE
 	@cobc $(CFLAGS) $(CBLFLAGS) $(LDFLAGS) -x $(1) -o _build/*.o -o _test/$(notdir $(basename $(1)))
 
-	@echo 'Testing: "$(basename $(1))"'
+	@echo 'Testing: "$(subst test/,,$(basename $(1)))"'
 	@_test/$(notdir $(basename $(1)))
+
+	$(if ifeq $$? 0, @echo 'Success: "$(subst test/,,$(basename $(1)))"')
 
 	@rm _test/$(notdir $(basename $(1)))
 
