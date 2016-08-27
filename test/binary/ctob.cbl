@@ -19,7 +19,7 @@ working-storage section.
 procedure division.
   call 'binary-ctob' using byte, bitstring
 
-  if not bitstring=expected
+  if not bitstring = expected
     display 'Character to Bistring conversion failed!'
 
     display 'Expected: ' with no advancing
@@ -29,7 +29,5 @@ procedure division.
     display bitstring
 
     move 1 to return-code
-
-    stop run
   end-if
 stop run.

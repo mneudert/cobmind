@@ -21,7 +21,7 @@ procedure division.
   call 'mmdb2-open' using database-path, database-handle
   call 'mmdb2-locate-meta' using database-handle, meta-offset
 
-  if not meta-offset=expected
+  if not meta-offset = expected
     display 'Found Metadata at wrong position!'
 
     display 'Expected: ' with no advancing
@@ -31,7 +31,5 @@ procedure division.
     display meta-offset
 
     move 1 to return-code
-
-    stop run
   end-if
 stop run.
