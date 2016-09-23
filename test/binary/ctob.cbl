@@ -22,11 +22,8 @@ procedure division.
   if not bitstring = expected
     display 'Character to Bistring conversion failed!'
 
-    display 'Expected: ' with no advancing
-    display expected
-
-    display 'Found:    ' with no advancing
-    display bitstring
+    display 'Expected: ' expected
+    display 'Found:    ' bitstring
 
     move 1 to return-code
   end-if

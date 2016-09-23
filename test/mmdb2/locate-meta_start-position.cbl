@@ -24,11 +24,8 @@ procedure division.
   if not meta-offset = expected
     display 'Found Metadata at wrong position!'
 
-    display 'Expected: ' with no advancing
-    display expected
-
-    display 'Found:    ' with no advancing
-    display meta-offset
+    display 'Expected: ' expected
+    display 'Found:    ' meta-offset
 
     move 1 to return-code
   end-if

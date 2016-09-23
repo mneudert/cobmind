@@ -20,6 +20,5 @@ linkage section.
 procedure division using database.
   call 'mmdb2-locate-meta' using database, meta-offset
 
-  display 'meta start position: ' with no advancing
-  display meta-offset
+  display 'meta start position: ' meta-offset
 exit program.
