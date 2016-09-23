@@ -12,8 +12,8 @@ working-storage section.
 01 buffer  pic x(1).
 
 01 needle-rec.
-   05 needle-char  pic x(1) comp-x.
-   05 needle-len   pic x(1) comp-x.
+   05 needle-char  pic 99.
+   05 needle-len   pic 99.
    05 needle-str   pic x(14).
 
 01 search-rec      pic x.
