@@ -12,7 +12,7 @@ addons:
 install:
   - mkdir "cobol"
   - mkdir "cobol-src" && cd "cobol-src"
-  - svn checkout svn://svn.code.sf.net/p/open-cobol/code/branches/gnu-cobol-2.0 .
+  - svn checkout -r 1124 svn://svn.code.sf.net/p/open-cobol/code/branches/gnu-cobol-2.0 .
   - ./configure --prefix="${TRAVIS_BUILD_DIR}/cobol" --exec-prefix="${TRAVIS_BUILD_DIR}/cobol"
   - bison -o cobc/parser.c cobc/parser.y
   - bison -o cobc/ppparse.c cobc/ppparse.y
