@@ -3,28 +3,22 @@
 use MaxMind::DB::Writer::Tree;
 use Net::Works::Network;
 
-my %types = (
-    type => 'utf8_string',
-);
-
 my $tree = MaxMind::DB::Writer::Tree->new(
-    ip_version            => 4,
+    ip_version            => 6,
     record_size           => 24,
+    alias_ipv6_to_ipv4    => 1,
     database_type         => 'CobMind-Test',
     languages             => ['en'],
     description           => { en => 'CobMind test database' },
-    map_key_type_callback => sub { $types{ $_[0] } },
+    map_key_type_callback => sub { 'utf8_string' },
 );
 
-my $network
-    = Net::Works::Network->new_from_string( string => '127.0.0.0/24' );
-
-$tree->insert_network(
-    $network,
-    {
-        type => 'local',
-    },
+my $network = Net::Works::Network->new_from_string(
+    string => '1.1.1.1/32'
 );
 
-open my $fh, '>', './CobMind-ipv4-24.mmdb';
+$tree->insert_network( $network, { type => 'test' } );
+
+open my $fh, '>', './CobMind.mmdb';
 $tree->write_tree($fh);
+close $fh;

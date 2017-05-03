@@ -10,10 +10,10 @@ data division.
 working-storage section.
 
 01 database-handle  pic x(4).
-01 database-path    pic x(128) value './test-data/CobMind-ipv4-24.mmdb'.
+01 database-path    pic x(128) value './test-data/CobMind.mmdb'.
 01 meta-offset      pic x(8) comp-x.
 
-01 expected  pic x(8) comp-x value 186.
+01 expected  pic x(8) comp-x value 515.
 
 *>*********************************************************************
 
