@@ -9,22 +9,29 @@ addons:
       - libdb-dev
       - texinfo
 
-install:
-  - mkdir "cobol"
-  - mkdir "cobol-src" && cd "cobol-src"
-  - svn checkout -r 1124 svn://svn.code.sf.net/p/open-cobol/code/branches/gnucobol-2.x .
-  - ./configure --prefix="${TRAVIS_BUILD_DIR}/cobol" --exec-prefix="${TRAVIS_BUILD_DIR}/cobol"
-  - bison -o cobc/parser.c cobc/parser.y
-  - bison -o cobc/ppparse.c cobc/ppparse.y
-  - echo '#!/bin/sh' > ./doc/cobcinfo.sh
-  - make && make install
-  - export PATH="${PATH}:${TRAVIS_BUILD_DIR}/cobol/bin"
+install: |-
+  mkdir cobol
+  mkdir cobol-src
 
-before_script:
-  - cd ${TRAVIS_BUILD_DIR}
-  - export CFLAGS="-I${TRAVIS_BUILD_DIR}/cobol/include"
-  - export LDFLAGS="-L${TRAVIS_BUILD_DIR}/cobol/lib"
-  - export CBLFLAGS="-conf=${TRAVIS_BUILD_DIR}/cobol/share/gnu-cobol/config/default.conf"
-  - export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${TRAVIS_BUILD_DIR}/cobol/lib" 
+  pushd cobol-src
+    svn checkout -r 1124 svn://svn.code.sf.net/p/open-cobol/code/branches/gnucobol-2.x .
+
+    ./configure --prefix="${TRAVIS_BUILD_DIR}/cobol" --exec-prefix="${TRAVIS_BUILD_DIR}/cobol"
+
+    bison -o cobc/parser.c cobc/parser.y
+    bison -o cobc/ppparse.c cobc/ppparse.y
+
+    echo '#!/bin/sh' > ./doc/cobcinfo.sh
+
+    make && make install
+  popd
+
+  export PATH="${PATH}:${TRAVIS_BUILD_DIR}/cobol/bin"
+
+before_script: |-
+  export CFLAGS="-I${TRAVIS_BUILD_DIR}/cobol/include"
+  export LDFLAGS="-L${TRAVIS_BUILD_DIR}/cobol/lib"
+  export CBLFLAGS="-conf=${TRAVIS_BUILD_DIR}/cobol/share/gnu-cobol/config/default.conf"
+  export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${TRAVIS_BUILD_DIR}/cobol/lib"
 
 script: make test
